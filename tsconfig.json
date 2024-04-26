@@ -15,6 +15,7 @@
       "@components/*": ["./src/components/*"],
       "@store/*": ["./src/store/*"],
       "@context/*": ["./src/context/*"],
+      "@theme/*": ["./src/theme/*"],
     }
   },
 

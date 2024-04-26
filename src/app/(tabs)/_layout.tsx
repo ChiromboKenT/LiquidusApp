@@ -11,6 +11,8 @@ export default function TabLayout() {
           name="index"
           options={{
             title: 'Home',
+            tabBarShowLabel: false,
+            headerShown: false,
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name="home" color={color} />
             ),
@@ -20,6 +22,8 @@ export default function TabLayout() {
           name="chat"
           options={{
             title: 'Chat',
+            tabBarShowLabel: false,
+            headerShown: false,
             tabBarIcon: ({ color }) => (
               <FontAwesome size={28} name="cog" color={color} />
             ),
