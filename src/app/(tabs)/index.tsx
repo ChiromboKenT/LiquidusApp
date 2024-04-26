@@ -1,22 +1,42 @@
 import InfoCard from '@components/InfoCard';
 import { Typography } from '@components/Typography';
+import { useLoading } from '@context/loading.context';
 import { useGetAPRQuery, useGetLIQTokensStakedQuery, useGetTotalLiquidityQuery } from '@services/blockchain.service';
+import { useGetBNBUSDPriceQuery } from '@services/stat.service';
+import { parse } from 'expo-linking';
+import { useEffect } from 'react';
 import { View, Text , StyleSheet} from 'react-native';
 
 export default function Tab() {
-  const { data, error, isLoading } = useGetTotalLiquidityQuery();
-  const { data : data1, error : error1, isLoading : isloading1 } = useGetAPRQuery();
-  const { data: data2, error : error2, isLoading : isLao } = useGetLIQTokensStakedQuery();
+  const { data : totalLiquidity, error,  } = useGetTotalLiquidityQuery();
+  const { data : apr, error : error1  } = useGetAPRQuery();
+  const { data: tokenStacked, error: error2} = useGetLIQTokensStakedQuery();
+  const {
+    data: bnbPrice,
+    error: error3,
+  } = useGetBNBUSDPriceQuery();
+
+  const { showLoader, hideLoader } = useLoading();
+
+  useEffect(() => {
+   if((totalLiquidity && apr && tokenStacked && bnbPrice ) && (!error && !error1 && !error2)) {
+     hideLoader();
+   } else {
+     showLoader();
+   }
+  }, [totalLiquidity, apr, tokenStacked, bnbPrice])
 
   return (
     <View style={styles.container}>
-      <Typography variant="title" style={styles.title}>LIQ Farming</Typography>
+      <Typography variant="title" style={styles.title}>
+        LIQ Farming
+      </Typography>
       <View>
         <InfoCard
           title="LIQ Single Token"
-          totalLiquidity={20000000}
-          apr={20}
-          liqTokensStacked={22222}
+          totalLiquidity={formatValue(totalLiquidity!, bnbPrice!, 2)}
+          liqTokensStacked={convertToEther(tokenStacked!)}
+          apr={parseFloat((convertToEther(apr!) * 100).toFixed(2))}
           imageSrc="https://via.placeholder.com/150"
         />
       </View>
@@ -36,3 +56,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   }
 });
+
+const convertToEther = (number: string): number => {
+  return parseFloat(number) * Math.pow(10, -18);
+};
+
+const formatValue = (
+  number: string,
+  currentPrice: string,
+  dp: number = 2,
+): number => {
+  const value = convertToEther(number) * parseFloat(currentPrice);
+  return parseFloat(value.toFixed(dp));
+};

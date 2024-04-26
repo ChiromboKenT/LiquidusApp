@@ -24,7 +24,7 @@ const InfoCard: React.FC<InfoCardProps> = ({
             {title}
           </Typography>
           <Typography variant="default" style={styles.text}>
-            Total Liquidity: {totalLiquidity}
+            Total Liquidity: ${totalLiquidity}
           </Typography>
           <Typography variant="default" style={styles.text}>
             Liq Tokens Stacked: {liqTokensStacked}
@@ -43,7 +43,7 @@ const InfoCard: React.FC<InfoCardProps> = ({
 const styles = StyleSheet.create({
   text: {
     fontSize: 16,
-    margin: 0,
+    marginBottom: 5,
     padding: 0,
   },
   infoCard: {

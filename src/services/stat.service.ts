@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const bscscan = createApi({
   reducerPath: 'bscscan',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.bscscan.com' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.bscscan.com/' }),
   endpoints: builder => ({
-    getBinancePrice: builder.query<string, void>({
+    GetBNBUSDPrice: builder.query<string, void>({
       queryFn: async () => {
         try {
           const response = await fetch(
-            '/api?module=stats&action=bnbprice&apikey=',
+            'https://api.bscscan.com/api?module=stats&action=bnbprice',
           );
           const data = await response.json();
           if(!data.result) throw new Error('No data found');
@@ -27,3 +27,7 @@ export const bscscan = createApi({
     }),
   }),
 });
+
+export const {
+  useGetBNBUSDPriceQuery,
+} = bscscan;
