@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import Entypo from '@expo/vector-icons/Entypo';
+import { Provider } from 'react-redux';
+import {store} from '@store/index';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function AppLayout() {
-  const [appIsReady, setAppIsReady] = useState(false);
+    const [appIsReady, setAppIsReady] = useState(false);
+
 
   useEffect(() => {
     async function prepare() {
@@ -30,8 +33,10 @@ export default function AppLayout() {
   }, []);
 
 return appIsReady ? (
-  <Stack>
-    <Stack.Screen name="(tabs)" options={{ headerShown: false }}></Stack.Screen>
-  </Stack>
+    <Provider store={store}>
+         <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }}></Stack.Screen>
+        </Stack>
+    </Provider>
 ) : null;
 }
