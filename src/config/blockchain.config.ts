@@ -1,14 +1,12 @@
 import '@ethersproject/shims';
-
 import { ethers } from 'ethers';
+import ContractAbi from "./contract-abi"
 
-const provider = new ethers.JsonRpcProvider();
+const rplURL =
+  process.env.REACT_APP_RPC_URL || 'https://bsc-dataseed.binance.org/';
+
+const provider = new ethers.JsonRpcProvider(rplURL);
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS || '';
-const ABI = [
-  'function stakedTokenSupply() external view returns (uint256)',
-  'function stakedToken() external view returns (uint256)',
-  'function rewardPerBlock() external view returns (uint256)',
-];
 
-export const contract = new ethers.Contract(contractAddress, ABI, provider);
+export const contract = new ethers.Contract(contractAddress, ContractAbi, provider);
