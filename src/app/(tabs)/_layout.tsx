@@ -2,11 +2,30 @@ import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import { LoadingProvider } from '@context/loading.context';
+import 'react-native-gesture-handler';
+import { colors, spacing } from '@theme/index';
+import { AppImage } from '@components/AppImage';
 
 export default function TabLayout() {
   return (
     <LoadingProvider>
-      <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: colors.primary,
+          tabBarStyle: {
+            height: 80,
+            borderWidth: 1,
+            borderTopColor: colors.primary,
+            backgroundColor: colors.background_dark,
+            paddingBottom: spacing.sm,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'bold',
+            marginBottom: 10,
+          },
+        }}
+      >
         <Tabs.Screen
           name="index"
           options={{
@@ -14,7 +33,10 @@ export default function TabLayout() {
             tabBarShowLabel: false,
             headerShown: false,
             tabBarIcon: ({ color }) => (
-              <FontAwesome size={28} name="home" color={color} />
+              <AppImage
+                source={require('@assets/img/tabHome.png')}
+                style={{ width: 50, height: 50, tintColor: color }}
+              />
             ),
           }}
         />
@@ -25,7 +47,10 @@ export default function TabLayout() {
             tabBarShowLabel: false,
             headerShown: false,
             tabBarIcon: ({ color }) => (
-              <FontAwesome size={28} name="cog" color={color} />
+              <AppImage
+                source={require('@assets/img/chat.png')}
+                style={{ width: 35, height: 35, tintColor: color }}
+              />
             ),
           }}
         />
