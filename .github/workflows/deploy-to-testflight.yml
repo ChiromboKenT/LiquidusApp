@@ -3,7 +3,7 @@ name: Deploy to TestFlight
 on:
   push:
     branches:
-      - main  # Adjust this as needed for your development cycle
+      - master
 
 jobs:
   build-and-deploy:
