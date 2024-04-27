@@ -13,6 +13,7 @@ export const bscscan = createApi({
           const data = await response.json();
           if(!data.result) throw new Error('No data found');
 
+          console.log(`BNB Price: ${data.result.ethusd}`)
           return { data: data.result.ethusd };
         } catch (error: any) {
           console.error('Error fetching Binance price:', error);

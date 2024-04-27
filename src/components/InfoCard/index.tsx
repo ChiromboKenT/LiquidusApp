@@ -1,6 +1,7 @@
 import { Typography } from '@components/Typography';
 import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
+import { formatCurrency } from '@utils/format.utils';
 
 interface InfoCardProps {
     title: string;
@@ -20,21 +21,24 @@ const InfoCard: React.FC<InfoCardProps> = ({
     return (
       <View style={styles.infoCard}>
         <View style={styles.infoCardLeft}>
-          <Typography style={styles.title} variant="title">
-            {title}
+          <View style={styles.titleContainer}>
+            <Typography variant="title" style={styles.title}>{title}</Typography>
+            <View style={styles.headerImageContainer}>
+              <Image
+                source={require('@assets/img/profile.jpeg')}
+                style={styles.image}
+              />
+            </View>
+          </View>
+          <Typography variant="default" style={styles.text}>
+            Total Liquidity: {formatCurrency(totalLiquidity, 'USD')}
           </Typography>
           <Typography variant="default" style={styles.text}>
-            Total Liquidity: ${totalLiquidity}
-          </Typography>
-          <Typography variant="default" style={styles.text}>
-            Liq Tokens Stacked: {liqTokensStacked}
+            Liq Tokens Stacked: {formatCurrency(liqTokensStacked, 'USD')}
           </Typography>
           <Typography variant="default" style={styles.text}>
             APR: {apr}%
           </Typography>
-        </View>
-        <View style={styles.infoCardRight}>
-          <Image source={require("@assets/img/profile.jpeg")} style={styles.image} />
         </View>
       </View>
     );
@@ -42,7 +46,7 @@ const InfoCard: React.FC<InfoCardProps> = ({
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 5,
     padding: 0,
   },
@@ -53,13 +57,15 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     overflow: 'hidden',
     width: '100%',
+    alignItems: 'center',
     marginBottom: 10,
-      padding: 10,
-      paddingTop: 15,
-      paddingBottom: 15,
-    },
+    padding: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+
   infoCardLeft: {
-    flex: 2,
+    flex: 1,
     padding: 10,
   },
   title: {
@@ -68,15 +74,31 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   infoCardRight: {
-    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
   },
   image: {
-    width: '100%',
+    width: 50,
+    height: 50,
     resizeMode: 'contain',
     borderRadius: 10,
     overflow: 'hidden',
+  },
+  titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+      justifyContent: 'space-between',
+    marginBottom: 0,
+  },
+  headerImageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 5,
+      borderRadius: 10,
+    backgroundColor: 'white',
   },
 });
 

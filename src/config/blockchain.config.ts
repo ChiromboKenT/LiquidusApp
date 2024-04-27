@@ -12,5 +12,5 @@ const contractAddress = process.env.EXPO_PUBLIC_CONTRACT_ADDRESS || '';
 export const contract = new ethers.Contract(contractAddress, ContractAbi, provider);
 
 export const formatEther = (number: string): number => {
-  return +parseFloat(ethers.formatEther(number)).toFixed(2);
+  return +parseFloat(ethers.formatEther(number)).toFixed(6);
 }
