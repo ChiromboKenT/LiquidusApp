@@ -31,15 +31,15 @@ export default function Tab() {
       <Typography variant="title" style={styles.title}>
         LIQ Farming
       </Typography>
-      <View>
+      {totalLiquidity && apr && tokenStacked && bnbPrice && (
         <InfoCard
           title="LIQ Single Token"
-          totalLiquidity={formatValue(totalLiquidity!, bnbPrice!, 2)}
-          liqTokensStacked={convertToEther(tokenStacked!)}
-          apr={parseFloat((convertToEther(apr!) * 100).toFixed(2))}
+          totalLiquidity={convertToUSD(totalLiquidity, bnbPrice, 2)}
+          liqTokensStacked={convertToUSD(totalLiquidity, bnbPrice, 2)}
+          apr={apr}
           imageSrc="https://via.placeholder.com/150"
         />
-      </View>
+      )}
     </View>
   );
 }
@@ -57,15 +57,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const convertToEther = (number: string): number => {
-  return parseFloat(number) * Math.pow(10, -18);
-};
-
-const formatValue = (
-  number: string,
+const convertToUSD = (
+  number: number,
   currentPrice: string,
   dp: number = 2,
 ): number => {
-  const value = convertToEther(number) * parseFloat(currentPrice);
+  const value = number * parseFloat(currentPrice);
   return parseFloat(value.toFixed(dp));
 };
