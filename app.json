@@ -3,7 +3,7 @@
     "name": "LiquidusApp",
     "slug": "LiquidusApp",
     "scheme": "liquidus",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,8 @@
     ],
     "ios": {
       "jsEngine": "hermes",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "finance.liquidus.test"
     },
     "android": {
       "jsEngine": "hermes",
@@ -31,6 +32,14 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5ff52611-0414-4899-9ec4-ee2243a6bfc2"
+      }
+    }
   }
 }
