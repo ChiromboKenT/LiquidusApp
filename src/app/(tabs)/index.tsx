@@ -1,14 +1,13 @@
 import InfoCard from '@components/InfoCard';
 import { Typography } from '@components/Typography';
 import { useLoading } from '@context/loading.context';
-import { useGetAPRQuery, useGetLIQTokensStakedQuery, useGetTotalLiquidityQuery } from '@services/blockchain.service';
+import { useGetContractDataQuery } from '@services/blockchain.service';
 import { useGetBNBUSDPriceQuery } from '@services/stat.service';
 import { useEffect } from 'react';
 import { View, Text , StyleSheet} from 'react-native';
 
 export default function Tab() {
-  const { data : totalLiquidity, error,  } = useGetTotalLiquidityQuery();
-  const { data : apr, error : error1  } = useGetAPRQuery();
+  const { data, error, isLoading } = useGetContractDataQuery();
   const {
     data: bnbPrice,
     error: error3,
@@ -17,12 +16,12 @@ export default function Tab() {
   const { showLoader, hideLoader } = useLoading();
 
   useEffect(() => {
-   if((totalLiquidity && apr  && bnbPrice ) && (!error && !error1 && !error3)) {
+   if((data  && bnbPrice ) && (!error && !error3)) {
      hideLoader();
    } else {
      showLoader();
    }
-  }, [totalLiquidity, apr, bnbPrice])
+  }, [isLoading,data, bnbPrice])
 
   return (
     <View style={styles.container}>
@@ -30,16 +29,17 @@ export default function Tab() {
         <Text>LIQ Farming</Text>
       </Typography>
       <View>
-        {
-          totalLiquidity && apr && bnbPrice ? (
+        {data && bnbPrice ? (
           <InfoCard
             title="LIQ Single Token"
-            totalLiquidity={convertToUSD(totalLiquidity, bnbPrice, 2)}
-            liqTokensStacked={convertToUSD(totalLiquidity, bnbPrice, 2)}
-            apr={apr}
+            totalLiquidity={convertToUSD(data.totalLiquidity, bnbPrice, 2)}
+            liqTokensStacked={convertToUSD(data.totalLiquidity, bnbPrice, 2)}
+            apr={data.apr}
             imageSrc="https://via.placeholder.com/150"
           />
-        ) : <View></View>}
+        ) : (
+          <View></View>
+        )}
       </View>
     </View>
   );

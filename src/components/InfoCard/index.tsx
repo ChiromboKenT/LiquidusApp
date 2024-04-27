@@ -47,7 +47,6 @@ const InfoCard: React.FC<InfoCardProps> = ({
 const styles = StyleSheet.create({
   text: {
     fontSize: 14,
-    marginBottom: 5,
     padding: 0,
   },
   infoCard: {
@@ -60,8 +59,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     padding: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
+    // Shadow for iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1,
+
+    // Elevation for Android
+
   },
 
   infoCardLeft: {
@@ -90,14 +95,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-      justifyContent: 'space-between',
+    justifyContent: 'space-between',
     marginBottom: 0,
   },
   headerImageContainer: {
     display: 'flex',
     justifyContent: 'center',
     padding: 5,
-      borderRadius: 10,
+    borderRadius: 10,
     backgroundColor: 'white',
   },
 });
