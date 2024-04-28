@@ -7,7 +7,6 @@ on:
 
 jobs:
   build-and-deploy:
-    name: Build and Deploy iOS App
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -25,18 +24,13 @@ jobs:
         run: echo "${{ secrets.EXPO_TOKEN }}" | expo login --non-interactive
 
       - name: Build iOS App with EAS
-        run: eas build --platform ios --profile preview --non-interactive --json
-        id: eas-build
+        run: |
+          BUILD_URL=$(eas build --platform ios --profile preview --non-interactive --json | jq -r '.builds[0].artifacts.buildUrl')
+          echo "BUILD_URL=$BUILD_URL" >> $GITHUB_ENV
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        # Using jq to parse JSON output to get the build URL
-        continue-on-error: true  # This allows the step to "fail" while still proceeding to extract the URL
-        # The output will be filtered to capture the URL using jq and stored as a step output
-        run: |
-          URL=$(eas build --platform ios --profile preview --non-interactive --json | jq -r '.builds[0].artifacts.buildUrl')
-          echo "BUILD_URL=$URL" >> $GITHUB_ENV
 
       - name: Submit to TestFlight
-        run: eas submit --platform ios --url ${{ env.BUILD_URL }} --apple-id ${{ secrets.APPLE_DEVELOPER_ACCOUNT }} --asc-app-id <ASC_APP_ID> --apple-team-id ${{ secrets.APPLE_TEAM_ID }}
+        run: eas submit --platform ios --url ${{ env.BUILD_URL }} --apple-id ${{ secrets.APPLE_DEVELOPER_ACCOUNT }} --asc-app-id ${{ secrets.ASC_APP_ID }} --apple-team-id ${{ secrets.APPLE_TEAM_ID }}
         env:
-          EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
